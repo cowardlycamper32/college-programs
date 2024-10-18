@@ -1,6 +1,6 @@
-import math
-import novasroutines as nr
-import novastestvalues as nt
+import nlib
+from nlib import novastestvalues as nt
+from nlib import novasroutines as nv
 
 allowed = False
 username = ""
