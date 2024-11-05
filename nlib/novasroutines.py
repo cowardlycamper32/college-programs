@@ -73,3 +73,28 @@ def slConnectionCloser(cursor):
 def slAddRow(cursor: sl.Cursor, table, data: tuple):
     cursor.execute('INSERT INTO ' + table + 'VALUES ' + str(data))
     return cursor
+
+def insertsort(array = []):
+    complete = False
+    pointer1 = 0
+    pointer2 = 1
+    check = 0
+    while not(complete):
+        check = 0
+        for num in range(len(array)):
+            try:
+                if array[pointer1] < array[pointer2]:
+                    array[pointer1], array[pointer2] = array[pointer2], array[pointer1]
+                else:
+                    check += 1
+            except IndexError:
+                break
+            if pointer1 != pointer2 - 1:
+                pointer1 += 1
+            else:
+                pointer2 += 1
+        if check == len(array):
+            complete = True
+    return array
+
+
