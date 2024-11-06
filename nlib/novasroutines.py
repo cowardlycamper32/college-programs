@@ -1,8 +1,5 @@
 import sqlite3 as sl
 
-from PyQt5.sip import array
-
-
 def intcheck(x):
     try:
         x = int(x)
@@ -74,7 +71,7 @@ def slAddRow(cursor: sl.Cursor, table, data: tuple):
     cursor.execute('INSERT INTO ' + table + 'VALUES ' + str(data))
     return cursor
 
-def insertsort(array = []):
+def insertSort(array = []):
     complete = False
     pointer1 = 0
     pointer2 = 1
@@ -98,3 +95,6 @@ def insertsort(array = []):
     return array
 
 
+def splitter(x, split: str):
+    out = x.split(split)
+    return out
