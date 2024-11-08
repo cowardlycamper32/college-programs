@@ -3,6 +3,7 @@ import datetime
 import time
 from math import floor
 from time import strftime
+import os
 
 
 def intcheck(x):
@@ -143,6 +144,10 @@ def fileCorrect(path):
 
 def logInit(calledFrom = "nowhere"):
     currenttime = datetimegen()
+    if not(os.path.exists("../logs")):
+        os.mkdir("../logs")
+
+
     log = open("../logs/" + currenttime + '.log', 'a')
     log.write(timestampgen() + " Program \'" + fileCorrect(calledFrom) + "\' started\n")
     return log
@@ -152,3 +157,4 @@ def writeLog(log, input):
 
 def closelog(log):
     log.close()
+
