@@ -42,17 +42,16 @@ def infiniteCheck(question: str, typeLookingFor: str, log,  error: str = "Invali
     userInput = input(question)
     while continuepls:
         if userInput == "":
-            continuepls = False
+            continuepls = True
             writeLog(log, "Invalid input: No Input Detected")
-        if typeLookingFor == "int":
-            try:
-                userInput = int(userInput)
-                continuepls = False
-                return True
-            except (TypeError, ValueError):
-                userInput = input(error + "\n")
-                writeLog(log, "Invalid input: " + error)
-                continuepls = True
+            userInput = input("Invalid Input: No Input Detected\n")
+        else:
+            if typeLookingFor == "int":
+                if not(intcheck(userInput)):
+                    userInput = input(error + ":\nPlease enter a number")
+                    writeLog(log, error + ": Enter a Number")
+                else:
+                    continuepls = False
 
     return False
 
