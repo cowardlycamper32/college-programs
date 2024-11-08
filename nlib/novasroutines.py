@@ -31,6 +31,24 @@ def check(x, y="int"):
         except (ValueError, TypeError):
             return False
 
+def infiniteCheck(question: str, typeLookingFor: str,  error: str = "Invalid input"):
+    continuepls = True
+    userInput = input(question)
+    while continuepls:
+        if userInput == "":
+            continuepls = False
+        if typeLookingFor == "int":
+            try:
+                userInput = int(userInput)
+                continuepls = False
+                return True
+            except (TypeError, ValueError):
+                userInput = input(error + "\n")
+                continuepls = True
+
+    return False
+
+
 
 def filecheck(filename, checkfor: str = "txt"):
     filename = filename.lower()
@@ -68,7 +86,7 @@ def slConnectionCloser(cursor):
 
 
 def slAddRow(cursor: sl.Cursor, table, data: tuple):
-    cursor.execute('INSERT INTO ' + table + 'VALUES ' + str(data))
+    cursor.execute('INSERT INTO ' + table + ' VALUES ' + str(data))
     return cursor
 
 def insertSort(array = []):
