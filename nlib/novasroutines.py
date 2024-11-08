@@ -1,4 +1,9 @@
 import sqlite3 as sl
+import datetime
+import time
+from math import floor
+from time import strftime
+
 
 def intcheck(x):
     try:
@@ -31,12 +36,13 @@ def check(x, y="int"):
         except (ValueError, TypeError):
             return False
 
-def infiniteCheck(question: str, typeLookingFor: str,  error: str = "Invalid input"):
+def infiniteCheck(question: str, typeLookingFor: str, log,  error: str = "Invalid input"):
     continuepls = True
     userInput = input(question)
     while continuepls:
         if userInput == "":
             continuepls = False
+            writeLog(log, "Invalid input: No Input Detected")
         if typeLookingFor == "int":
             try:
                 userInput = int(userInput)
@@ -44,6 +50,7 @@ def infiniteCheck(question: str, typeLookingFor: str,  error: str = "Invalid inp
                 return True
             except (TypeError, ValueError):
                 userInput = input(error + "\n")
+                writeLog(log, "Invalid input: " + error)
                 continuepls = True
 
     return False
@@ -116,3 +123,32 @@ def insertSort(array = []):
 def splitter(x, split: str):
     out = x.split(split)
     return out
+
+def datetimegen():
+    filenametime = strftime("%Y%m%d-%H%M%S", time.localtime(floor(time.time())))
+    return filenametime
+
+
+def timestampgen():
+    readabletime = strftime("%H:%M:%S", time.localtime(floor(time.time())))
+    return "[" + readabletime + "]"
+
+def fileCorrect(path):
+    temparr = path.split("\\")
+    for i in temparr:
+        if ".py" in i:
+            filename = i
+    return filename
+
+
+def logInit(calledFrom = "nowhere"):
+    currenttime = datetimegen()
+    log = open("../logs/" + currenttime + '.log', 'a')
+    log.write(timestampgen() + " Program \'" + fileCorrect(calledFrom) + "\' started\n")
+    return log
+
+def writeLog(log, input):
+    log.write(timestampgen() +" " + input + "\n")
+
+def closelog(log):
+    log.close()
