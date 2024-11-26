@@ -157,13 +157,13 @@ def writeLog(log, input):
 def closelog(log):
     log.close()
 
-def createpath(path: str):
+def createfile(path: str):
     if not(os.path.exists(path)):
         os.mkdir(path)
-    return True
+    file = open(path, "a")return True
 
 def createfile(path: str):
-    file = open(path, "a")
+
     return file
 
 def fileexistscheck(path: str):
@@ -172,4 +172,5 @@ def fileexistscheck(path: str):
     else:
         return False
 
-
+def simpwrite(file, text):
+    file.write(text + "\n")
