@@ -78,7 +78,7 @@ def displayBoardCLI(board):
         for j in range(len(board[i])):
             space = board[i][j]
             display[i][j] = space.currentToken
-    pyautogui.hotkey('command', ',')
+    os.system('cls')
     nr.print2Dnicely(display)
 
 ticBoard = TicBoard().boardCreate()
