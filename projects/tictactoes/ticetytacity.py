@@ -10,11 +10,14 @@ class TicBoard():
                  [nc.ticSpace(0, 2, False, False), nc.ticSpace(1, 2, False, False), nc.ticSpace(2, 2, False, False)]]
         return board
 
+
+def checkIfINITCorrect(board):
+    for i in range(len(board)):
+        for j in range(len(board[i])):
+            space = board[i][j]
+            if not(space.isAnX) and not(space.isAnO):
+                board[i][j].isAvailable = True
+
+
 ticBoard = TicBoard().boardCreate()
-for i in range(len(ticBoard)):
-    for j in range(len(ticBoard[i])):
-        space = ticBoard[i][j]
-        if not(space.isAnX) and not(space.isAnO):
-            ticBoard[i][j].isAvailable = True
-
-
+checkIfINITCorrect(ticBoard)
