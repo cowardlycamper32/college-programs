@@ -176,3 +176,7 @@ def fileexistscheck(path: str):
 
 def simpwrite(file, text):
     file.write(text + "\n")
+
+def print2Dnicely(array):
+    for i in range(3):
+        print("".join('.' for j in range(3)))
