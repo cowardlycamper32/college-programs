@@ -1,6 +1,5 @@
 import os
 
-import pyautogui
 
 from nlib import novasroutines as nr, novasclasses as nc
 
@@ -37,8 +36,8 @@ def inputthingie(input):
             return False
     return splitthing
 
-def inputLoop(board):
-    displayBoardCLI(board)
+def inputLoop(board, display):
+    displayBoardCLI(board, display)
     count = 0
     finished = False
     while not(finished):
@@ -53,13 +52,13 @@ def inputLoop(board):
                     board[splat[0]][splat[1]].isAvailable = False
                     board[splat[0]][splat[1]].isX = True
                     count += 1
-                    displayBoardCLI(board)
+                    displayBoardCLI(board, display)
             elif not(whosTurn(count)):
                 if board[splat[0]][splat[1]].isAvailable:
                     board[splat[0]][splat[1]].isAvailable = False
                     board[splat[0]][splat[1]].isO = True
                     count += 1
-                    displayBoardCLI(board)
+                    display = displayBoardCLI(board, display)
 
 def whosTurn(count):
     if count % 2 == 0 or count == 0:
@@ -69,21 +68,23 @@ def whosTurn(count):
 
 
 
-def displayBoardCLI(board):
-    display = [[" ", " ", " "],
-               [" ", " ", " "],
-               [" ", " ", " "]]
+def displayBoardCLI(board, display):
+
     count = 0
     for i in range(len(board)):
         for j in range(len(board[i])):
             space = board[i][j]
             display[i][j] = space.currentToken
-    os.system('cls')
+    #os.system('cls')
     nr.print2Dnicely(display)
-
+    return display
+initdisplay = [[" ", " ", " "],
+               [" ", " ", " "],
+               [" ", " ", " "]]
 ticBoard = TicBoard().boardCreate()
 print(checkIfINITCorrect(ticBoard))
-inputLoop(ticBoard)
+print(inputLoop(ticBoard, initdisplay))
+print("This is a test")
 
 
 
