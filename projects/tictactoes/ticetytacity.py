@@ -12,12 +12,19 @@ class TicBoard():
 
 
 def checkIfINITCorrect(board):
+    count = 0
     for i in range(len(board)):
         for j in range(len(board[i])):
             space = board[i][j]
             if not(space.isAnX) and not(space.isAnO):
                 board[i][j].isAvailable = True
+                count += 1
+    if count == 9:
+        return True
+    else:
+        return False
 
 
 ticBoard = TicBoard().boardCreate()
-checkIfINITCorrect(ticBoard)
+print(checkIfINITCorrect(ticBoard))
+
