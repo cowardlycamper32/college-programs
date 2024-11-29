@@ -5,9 +5,9 @@ from nlib import novasroutines as nr, novasclasses as nc
 
 class TicBoard():
     def __init__(self):
-        self.board = [[" ", " ", " "],
-                      [" ", " ", " "],
-                      [" ", " ", " "]]
+        board = [[" ", " ", " "],
+                   [" ", " ", " "],
+                   [" ", " ", " "]]
     def boardCreate(self):
         board = [[nc.ticSpace(0, 0, False, False), nc.ticSpace(1, 0, False, False), nc.ticSpace(2, 0, False, False)],
                  [nc.ticSpace(0, 1, False, False), nc.ticSpace(1, 1, False, False), nc.ticSpace(2, 1, False, False)],
@@ -30,10 +30,27 @@ class TicBoard():
             return True
         elif board[2][0].isAnX and board[1][1].isAnX and board[0][2].isAnX:
             return True
+        elif board[0][0].isAnO and board[1][0].isAnO and board[2][0].isAnO:
+            return False
+        elif board[0][1].isAnO and board[1][1].isAnO and board[2][1].isAnO:
+            return False
+        elif board[0][2].isAnO and board[1][2].isAnO and board[2][2].isAnO:
+            return False
+        elif board[0][0].isAnO and board[0][1].isAnO and board[0][2].isAnO:
+            return False
+        elif board[1][0].isAnO and board[1][1].isAnO and board[1][2].isAnO:
+            return False
+        elif board[2][0].isAnO and board[2][1].isAnO and board[2][2].isAnO:
+            return False
+        elif board[0][0].isAnO and board[1][1].isAnO and board[2][2].isAnO:
+            return False
+        elif board[2][0].isAnO and board[1][1].isAnO and board[0][2].isAnO:
+            return False
         elif count == 9:
             return "draw"
         else:
-            return False
+            return "continue"
+
 
 
 
@@ -61,7 +78,7 @@ def inputthingie(funcInput):
         splitthing[i] -= 1
     return splitthing
 
-def inputLoop(board):
+def inputLoop(objectBoard, board):
     display = board
     displayBoardCLI(board)
 
@@ -84,14 +101,16 @@ def inputLoop(board):
                     board[splat[0]][splat[1]].changeToO()
                     count += 1
                     board = displayBoardCLI(board)
-        if board.wincheck(display, count):
-            print("You won!")
-            finished = True
-        elif board.wincheck(display, count) == "draw":
+        if objectBoard.wincheck(display, count) == "continue":
+            pass
+        elif objectBoard.wincheck(display, count) == "draw":
             print("Draw!")
             finished = True
-        elif not board.wincheck(display, count):
-            print("You loose!")
+        elif objectBoard.wincheck(display, count):
+            print("You Win!")
+            finished = True
+        elif not objectBoard.wincheck(display, count):
+            print("You Lose!")
             finished = True
         else:
             print("HOW THE FUCK DID YOU GET HERE???")
@@ -117,11 +136,15 @@ def displayBoardCLI(board):
 
     nr.print2Dnicely(display)
     return board
+INITBoard = [[" ", " ", " "],
+            [" ", " ", " "],
+            [" ", " ", " "]]
+ticBoard = TicBoard()
+regboard = ticBoard.boardCreate()
 
-ticBoard = TicBoard().boardCreate()
 
-print(checkIfINITCorrect(ticBoard))
-inputLoop(ticBoard)
+print(checkIfINITCorrect(regboard))
+inputLoop(ticBoard, regboard)
 
 
 
