@@ -151,8 +151,8 @@ def logInit(calledFrom = "nowhere"):
     log.write(timestampgen() + " Program \'" + fileCorrect(calledFrom) + "\' started\n")
     return log
 
-def writeLog(log, input):
-    log.write(timestampgen() +" " + input + "\n")
+def writeLog(log, passedinput):
+    log.write(timestampgen() +" " + passedinput + "\n")
 
 def closelog(log):
     log.close()
@@ -178,5 +178,5 @@ def simpwrite(file, text):
     file.write(text + "\n")
 
 def print2Dnicely(array):
-    for i in range(3):
-        print("".join('.' for j in range(3)))
+    for row in array:
+        print(row)

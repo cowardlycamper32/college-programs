@@ -1,7 +1,5 @@
 import os
 
-import pyautogui
-
 from nlib import novasroutines as nr, novasclasses as nc
 
 
@@ -38,26 +36,25 @@ def inputthingie(input):
     return splitthing
 
 def inputLoop(board):
-    displayBoardCLI(board)
+    display = board
+
     count = 0
     finished = False
     while not(finished):
         splat = inputthingie(input("enter the coordinate in the format \'X,Y\'."))
-        if splat == False:
+        if not splat:
             print("enter the coordinates please")
         elif len(splat) != 2:
             print("enter the coordinates as instructed please")
         else:
             if whosTurn(count):
                 if board[splat[0]][splat[1]].isAvailable:
-                    board[splat[0]][splat[1]].isAvailable = False
-                    board[splat[0]][splat[1]].isX = True
+                    board[splat[0]][splat[1]].changeToX()
                     count += 1
                     displayBoardCLI(board)
             elif not(whosTurn(count)):
                 if board[splat[0]][splat[1]].isAvailable:
-                    board[splat[0]][splat[1]].isAvailable = False
-                    board[splat[0]][splat[1]].isO = True
+                    board[splat[0]][splat[1]].changeToO()
                     count += 1
                     displayBoardCLI(board)
 
@@ -70,9 +67,7 @@ def whosTurn(count):
 
 
 def displayBoardCLI(board):
-    display = [[" ", " ", " "],
-               [" ", " ", " "],
-               [" ", " ", " "]]
+    display = board
     count = 0
     for i in range(len(board)):
         for j in range(len(board[i])):

@@ -14,16 +14,12 @@ class ticSpace():
         self.isAnO = isAnO
         self.isAvailable = isAvailable
         self.currentToken = currentToken
-    def changeToX(self, x, y):
-        self.x = x
-        self.y = y
+    def changeToX(self):
         self.isAnX = True
         self.isAnO = False
         self.isAvailable = False
         self.currentToken = "X"
-    def changeToO(self, x, y):
-        self.x = x
-        self.y = y
+    def changeToO(self):
         self.isAnO = True
         self.isAnX = False
         self.isAvailable = False
