@@ -5,28 +5,28 @@ from nlib import novasroutines as nr, novasclasses as nc
 
 class TicBoard():
     def __init__(self):
-        pass
-    def boardCreate(self):
-        board = [[nc.ticSpace(0, 0, False, False), nc.ticSpace(1, 0, False, False), nc.ticSpace(2, 0, False, False)],
+        self.board = [[nc.ticSpace(0, 0, False, False), nc.ticSpace(1, 0, False, False), nc.ticSpace(2, 0, False, False)],
                  [nc.ticSpace(0, 1, False, False), nc.ticSpace(1, 1, False, False), nc.ticSpace(2, 1, False, False)],
                  [nc.ticSpace(0, 2, False, False), nc.ticSpace(1, 2, False, False), nc.ticSpace(2, 2, False, False)]]
-        return board
+    def boardCreate(self):
+
+        return self.board
     def wincheck(self, board, count):
-        if board[0][0].isX and board[1][0].isX and board[2][0].isX:
+        if board[0][0].isAnX and board[1][0].isAnX and board[2][0].isAnX:
             return True
-        elif board[0][1].isX and board[1][1].isX and board[2][1].isX:
+        elif board[0][1].isAnX and board[1][1].isAnX and board[2][1].isAnX:
             return True
-        elif board[0][2].isX and board[1][2].isX and board[2][2].isX:
+        elif board[0][2].isAnX and board[1][2].isAnX and board[2][2].isAnX:
             return True
-        elif board[0][0].isX and board[0][1].isX and board[0][2].isX:
+        elif board[0][0].isAnX and board[0][1].isAnX and board[0][2].isAnX:
             return True
-        elif board[1][0].isX and board[1][1].isX and board[1][2].isX:
+        elif board[1][0].isAnX and board[1][1].isAnX and board[1][2].isAnX:
             return True
-        elif board[2][0].isX and board[2][1].isX and board[2][2].isX:
+        elif board[2][0].isAnX and board[2][1].isAnX and board[2][2].isAnX:
             return True
-        elif board[0][0].isX and board[1][1].isX and board[2][2].isX:
+        elif board[0][0].isAnX and board[1][1].isAnX and board[2][2].isAnX:
             return True
-        elif board[2][0].isX and board[1][1].isX and board[0][2].isX:
+        elif board[2][0].isAnX and board[1][1].isAnX and board[0][2].isAnX:
             return True
         elif count == 9:
             return "draw"
