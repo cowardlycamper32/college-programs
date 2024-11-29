@@ -14,7 +14,7 @@ def check_winner(board, player):
     # Check rows, columns, and diagonals for a win
     for i in range(3):
         if all(cell == player for cell in board[i]) or \
-           all(cell == player for cell in [board[0][i], board[1][i], board[2][i]]):
+           all(cell == player for cell in [self.board[0][i], self.board[1][i], self.board[2][i]]):
             return player
     if all(board[i][i] == player for i in range(3)) or \
        all(board[i][2-i] == player for i in range(3)):

@@ -5,12 +5,14 @@ from nlib import novasroutines as nr, novasclasses as nc
 
 class TicBoard():
     def __init__(self):
-        self.board = [[nc.ticSpace(0, 0, False, False), nc.ticSpace(1, 0, False, False), nc.ticSpace(2, 0, False, False)],
+        self.board = [[" ", " ", " "],
+                      [" ", " ", " "],
+                      [" ", " ", " "]]
+    def boardCreate(self):
+        board = [[nc.ticSpace(0, 0, False, False), nc.ticSpace(1, 0, False, False), nc.ticSpace(2, 0, False, False)],
                  [nc.ticSpace(0, 1, False, False), nc.ticSpace(1, 1, False, False), nc.ticSpace(2, 1, False, False)],
                  [nc.ticSpace(0, 2, False, False), nc.ticSpace(1, 2, False, False), nc.ticSpace(2, 2, False, False)]]
-    def boardCreate(self):
-
-        return self.board
+        return board
     def wincheck(self, board, count):
         if board[0][0].isAnX and board[1][0].isAnX and board[2][0].isAnX:
             return True
