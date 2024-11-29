@@ -11,6 +11,29 @@ class TicBoard():
                  [nc.ticSpace(0, 1, False, False), nc.ticSpace(1, 1, False, False), nc.ticSpace(2, 1, False, False)],
                  [nc.ticSpace(0, 2, False, False), nc.ticSpace(1, 2, False, False), nc.ticSpace(2, 2, False, False)]]
         return board
+    def wincheck(self, board, count):
+        if board[0][0].isX and board[1][0].isX and board[2][0].isX:
+            return True
+        elif board[0][1].isX and board[1][1].isX and board[2][1].isX:
+            return True
+        elif board[0][2].isX and board[1][2].isX and board[2][2].isX:
+            return True
+        elif board[0][0].isX and board[0][1].isX and board[0][2].isX:
+            return True
+        elif board[1][0].isX and board[1][1].isX and board[1][2].isX:
+            return True
+        elif board[2][0].isX and board[2][1].isX and board[2][2].isX:
+            return True
+        elif board[0][0].isX and board[1][1].isX and board[2][2].isX:
+            return True
+        elif board[2][0].isX and board[1][1].isX and board[0][2].isX:
+            return True
+        elif count == 9:
+            return "draw"
+        else:
+            return False
+
+
 
 
 def checkIfINITCorrect(board):
@@ -26,17 +49,19 @@ def checkIfINITCorrect(board):
     else:
         return False
 
-def inputthingie(input):
-    splitthing = nr.splitter(input, ",")
+def inputthingie(funcInput):
+    splitthing = nr.splitter(funcInput, ",")
     for i in range(len(splitthing)):
         if nr.intcheck(splitthing[i]):
             splitthing[i] = int(splitthing[i])
         else:
             return False
+        splitthing[i] -= 1
     return splitthing
 
 def inputLoop(board):
     display = board
+    displayBoardCLI(board)
 
     count = 0
     finished = False
@@ -51,13 +76,24 @@ def inputLoop(board):
                 if board[splat[0]][splat[1]].isAvailable:
                     board[splat[0]][splat[1]].changeToX()
                     count += 1
-                    displayBoardCLI(board)
+                    board = displayBoardCLI(board)
             elif not(whosTurn(count)):
                 if board[splat[0]][splat[1]].isAvailable:
                     board[splat[0]][splat[1]].changeToO()
                     count += 1
-                    displayBoardCLI(board)
-
+                    board = displayBoardCLI(board)
+        if board.wincheck(display, count):
+            print("You won!")
+            finished = True
+        elif board.wincheck(display, count) == "draw":
+            print("Draw!")
+            finished = True
+        elif not board.wincheck(display, count):
+            print("You loose!")
+            finished = True
+        else:
+            print("HOW THE FUCK DID YOU GET HERE???")
+            exit()
 def whosTurn(count):
     if count % 2 == 0 or count == 0:
         return True # return True for X
@@ -67,16 +103,21 @@ def whosTurn(count):
 
 
 def displayBoardCLI(board):
-    display = board
+    display = [[" ", " ", " "],
+               [" ", " ", " "],
+               [" ", " ", " "]]
     count = 0
     for i in range(len(board)):
         for j in range(len(board[i])):
             space = board[i][j]
             display[i][j] = space.currentToken
     os.system('cls')
+
     nr.print2Dnicely(display)
+    return board
 
 ticBoard = TicBoard().boardCreate()
+
 print(checkIfINITCorrect(ticBoard))
 inputLoop(ticBoard)
 
