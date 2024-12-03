@@ -1,6 +1,7 @@
 import os
 
 from nlib import novasroutines as nr, novasclasses as nc
+import computer as cpu
 
 
 class TicBoard():
@@ -132,7 +133,7 @@ def displayBoardCLI(board):
         for j in range(len(board[i])):
             space = board[i][j]
             display[i][j] = space.currentToken
-    os.system('cls')
+    nr.clearer()
 
     nr.print2Dnicely(display)
     return board

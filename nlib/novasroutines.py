@@ -1,9 +1,11 @@
 import sqlite3 as sl
 import datetime
+import sys
 import time
 from math import floor
 from time import strftime
 import os
+from platform import system
 
 
 def intcheck(x):
@@ -180,3 +182,10 @@ def simpwrite(file, text):
 def print2Dnicely(array):
     for row in array:
         print(row)
+
+def clearer():
+    oS = system()
+    if oS == "Windows":
+        os.system("cls")
+    else:
+        os.system("clear")
