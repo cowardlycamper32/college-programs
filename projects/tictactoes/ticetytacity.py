@@ -2,7 +2,7 @@ import os
 
 from nlib import novasroutines as nr, novasclasses as nc
 import computer as cpu
-
+lastmove = ["",""]
 
 class TicBoard():
     def __init__(self):
@@ -79,7 +79,7 @@ def inputthingie(funcInput):
         splitthing[i] -= 1
     return splitthing
 
-def inputLoop(objectBoard, board):
+def inputLoop(objectBoard, board, computerYes, computer):
     display = board
     displayBoardCLI(board)
 
@@ -97,11 +97,16 @@ def inputLoop(objectBoard, board):
                     board[splat[0]][splat[1]].changeToX()
                     count += 1
                     board = displayBoardCLI(board)
+                    lastmove = splat
             elif not(whosTurn(count)):
+                if computerYes:
+                    computer.TurnCPU(lastmove, objectBoard)
                 if board[splat[0]][splat[1]].isAvailable:
                     board[splat[0]][splat[1]].changeToO()
                     count += 1
                     board = displayBoardCLI(board)
+                    lastmove = splat
+            print(lastmove)
         if objectBoard.wincheck(display, count) == "continue":
             pass
         elif objectBoard.wincheck(display, count) == "draw":
@@ -137,15 +142,33 @@ def displayBoardCLI(board):
 
     nr.print2Dnicely(display)
     return board
+
+def computerTurn(board, computer):
+
+    computer.normalCPU()
+    computermoves = computer.moves
+
+def computerDiff(computer):
+    if input("use normal difficulty?").lower() == "yes":
+        computer.normalCPU()
+    else:
+       exit()
+
+
 INITBoard = [[" ", " ", " "],
             [" ", " ", " "],
             [" ", " ", " "]]
 ticBoard = TicBoard()
 regboard = ticBoard.boardCreate()
 
-
+if input("use AI?").lower() == "yes":
+    useComputer = True
+else:
+    useComputer = False
+computer = cpu.Computer(regboard)
+computerDiff(computer)
 print(checkIfINITCorrect(regboard))
-inputLoop(ticBoard, regboard)
+inputLoop(ticBoard, regboard, useComputer, computer)
 
 
 
