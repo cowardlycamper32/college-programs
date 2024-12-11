@@ -13,12 +13,12 @@ class Computer:
             if intcheck(lastmove[i]):
                 lastmove[i] = int(lastmove[i])
         for i in self.moves[lastmove[0]][lastmove[1]]:
-            temp = splitter(i)
+            temp = splitter(i, ",")
             for j in range(len(temp)):
                 if intcheck(temp[j]):
                     temp[j] = int(temp[j])
-            if board[temp[0]][temp[1]].isAvailable():
-                board[temp[0]][temp[1]] = "O"
-                pass
+            if board[temp[0] - 1][temp[1] - 1].isAvailable():
+                board[temp[0]][temp[1]].changeToO()
+                return board
             else:
                 pass

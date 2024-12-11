@@ -100,7 +100,10 @@ def inputLoop(objectBoard, board, computerYes, computer):
                     lastmove = splat
             elif not(whosTurn(count)):
                 if computerYes:
-                    computer.TurnCPU(lastmove, objectBoard)
+                    temp = computer.TurnCPU(lastmove, board)
+                    count += 1
+                    temp = displayBoardCLI(temp)
+
                 if board[splat[0]][splat[1]].isAvailable:
                     board[splat[0]][splat[1]].changeToO()
                     count += 1
