@@ -1,16 +1,18 @@
-Create two different classes named “Iron Man” and “Thanos”. The classes should have attributes like health and attack types.
+Create two different classes named “Iron Man” and “Thanos”. The classes should have attributes like health and attack types. nope
 You will have different attack types which will have different impact on the opponent. For instance, you can have a punch which
-can take 10 from the opponents health.
-You will create a game where each player will have take turns and attack the opponent. The first one to remain alive will win.
+can take 10 from the opponents health. yep
+You will create a game where each player will have take turns and attack the opponent. The first one to remain alive will win. yep
 
 
 
 You can make the game interesting by randomizing attacks. For instance, the player just selects the attack option and a random
-attack hits the opponent. You can also have healing options to revive health. You can play against a computer or a second player.
+attack hits the opponent. yep
+You can also have healing options to revive health. yep
+You can play against a computer or a second player. yep
 For CPU, you can have them randomly pick any attack defined for its character.I leave it upto you to be imaginative in how you
-apply OOP to this game and make it interesting.
+apply OOP to this game and make it interesting. yep
 
-P.S. You can have multiple classes for different characters of avengers, each with their own attacks.
+P.S. You can have multiple classes for different characters of avengers, each with their own attacks. nope
 
 
 Note: Please do not complicate the game by looking up concepts like inheritance, in class object creation, polymorphism,
