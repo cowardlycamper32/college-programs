@@ -103,12 +103,13 @@ def inputLoop(objectBoard, board, computerYes, computer):
                     temp = computer.TurnCPU(lastmove, board)
                     count += 1
                     temp = displayBoardCLI(temp)
+                else:
 
-                if board[splat[0]][splat[1]].isAvailable:
-                    board[splat[0]][splat[1]].changeToO()
-                    count += 1
-                    board = displayBoardCLI(board)
-                    lastmove = splat
+                    if board[splat[0]][splat[1]].isAvailable:
+                        board[splat[0]][splat[1]].changeToO()
+                        count += 1
+                        board = displayBoardCLI(board)
+                        lastmove = splat
             print(lastmove)
         if objectBoard.wincheck(display, count) == "continue":
             pass
