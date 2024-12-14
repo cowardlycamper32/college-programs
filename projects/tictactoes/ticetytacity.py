@@ -74,6 +74,8 @@ def inputthingie(funcInput):
     for i in range(len(splitthing)):
         if nr.intcheck(splitthing[i]):
             splitthing[i] = int(splitthing[i])
+            if splitthing[i] > 3 or splitthing[i] < 0:
+                return False
         else:
             return False
         splitthing[i] -= 1
@@ -86,31 +88,35 @@ def inputLoop(objectBoard, board, computerYes, computer):
     count = 0
     finished = False
     while not(finished):
-        splat = inputthingie(input("enter the coordinate in the format \'X,Y\'."))
-        if not splat:
-            print("enter the coordinates please")
-        elif len(splat) != 2:
-            print("enter the coordinates as instructed please")
-        else:
-            if whosTurn(count):
+        if whosTurn(count):
+            splat = inputthingie(input("enter the coordinate in the format \'X,Y\'."))
+            if not splat:
+                print("enter the coordinates please")
+            elif len(splat) != 2:
+                print("enter the coordinates as instructed please")
+            else:
                 if board[splat[0]][splat[1]].isAvailable:
                     board[splat[0]][splat[1]].changeToX()
                     count += 1
                     board = displayBoardCLI(board)
                     lastmove = splat
-            elif not(whosTurn(count)):
-                if computerYes:
-                    temp = computer.TurnCPU(lastmove, board)
-                    count += 1
-                    temp = displayBoardCLI(temp)
+        elif not(whosTurn(count)):
+            if computerYes:
+                temp = computer.TurnCPU(lastmove, board)
+                count += 1
+                temp = displayBoardCLI(temp)
+            else:
+                splat = inputthingie(input("enter the coordinate in the format \'X,Y\'."))
+                if not splat:
+                    print("enter the coordinates please")
+                elif len(splat) != 2:
+                    print("enter the coordinates as instructed please")
                 else:
-
                     if board[splat[0]][splat[1]].isAvailable:
-                        board[splat[0]][splat[1]].changeToO()
+                        board[splat[0]][splat[1]].changeToY()
                         count += 1
                         board = displayBoardCLI(board)
                         lastmove = splat
-            print(lastmove)
         if objectBoard.wincheck(display, count) == "continue":
             pass
         elif objectBoard.wincheck(display, count) == "draw":
@@ -164,13 +170,14 @@ INITBoard = [[" ", " ", " "],
             [" ", " ", " "]]
 ticBoard = TicBoard()
 regboard = ticBoard.boardCreate()
-
+computer = cpu.Computer(regboard)
 if input("use AI?").lower() == "yes":
     useComputer = True
+    computerDiff(computer)
 else:
     useComputer = False
-computer = cpu.Computer(regboard)
-computerDiff(computer)
+
+
 print(checkIfINITCorrect(regboard))
 inputLoop(ticBoard, regboard, useComputer, computer)
 
