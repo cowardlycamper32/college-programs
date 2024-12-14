@@ -1,9 +1,11 @@
 import sqlite3 as sl
 import datetime
+import sys
 import time
 from math import floor
 from time import strftime
 import os
+from platform import system
 
 
 def intcheck(x):
@@ -151,8 +153,8 @@ def logInit(calledFrom = "nowhere"):
     log.write(timestampgen() + " Program \'" + fileCorrect(calledFrom) + "\' started\n")
     return log
 
-def writeLog(log, input):
-    log.write(timestampgen() +" " + input + "\n")
+def writeLog(log, passedinput):
+    log.write(timestampgen() +" " + passedinput + "\n")
 
 def closelog(log):
     log.close()
@@ -178,5 +180,12 @@ def simpwrite(file, text):
     file.write(text + "\n")
 
 def print2Dnicely(array):
-    for i in range(3):
-        print("".join('.' for j in range(3)))
+    for row in array:
+        print(row)
+
+def clearer():
+    oS = system()
+    if oS == "Windows":
+        os.system("cls")
+    else:
+        os.system("clear")

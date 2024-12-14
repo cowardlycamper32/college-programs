@@ -1,18 +1,59 @@
 import os
 
-import pyautogui
-
 from nlib import novasroutines as nr, novasclasses as nc
-
+import computer as cpu
+lastmove = ["",""]
 
 class TicBoard():
     def __init__(self):
-        pass
+        board = [[" ", " ", " "],
+                   [" ", " ", " "],
+                   [" ", " ", " "]]
     def boardCreate(self):
         board = [[nc.ticSpace(0, 0, False, False), nc.ticSpace(1, 0, False, False), nc.ticSpace(2, 0, False, False)],
                  [nc.ticSpace(0, 1, False, False), nc.ticSpace(1, 1, False, False), nc.ticSpace(2, 1, False, False)],
                  [nc.ticSpace(0, 2, False, False), nc.ticSpace(1, 2, False, False), nc.ticSpace(2, 2, False, False)]]
         return board
+    def wincheck(self, board, count):
+        if board[0][0].isAnX and board[1][0].isAnX and board[2][0].isAnX:
+            return True
+        elif board[0][1].isAnX and board[1][1].isAnX and board[2][1].isAnX:
+            return True
+        elif board[0][2].isAnX and board[1][2].isAnX and board[2][2].isAnX:
+            return True
+        elif board[0][0].isAnX and board[0][1].isAnX and board[0][2].isAnX:
+            return True
+        elif board[1][0].isAnX and board[1][1].isAnX and board[1][2].isAnX:
+            return True
+        elif board[2][0].isAnX and board[2][1].isAnX and board[2][2].isAnX:
+            return True
+        elif board[0][0].isAnX and board[1][1].isAnX and board[2][2].isAnX:
+            return True
+        elif board[2][0].isAnX and board[1][1].isAnX and board[0][2].isAnX:
+            return True
+        elif board[0][0].isAnO and board[1][0].isAnO and board[2][0].isAnO:
+            return False
+        elif board[0][1].isAnO and board[1][1].isAnO and board[2][1].isAnO:
+            return False
+        elif board[0][2].isAnO and board[1][2].isAnO and board[2][2].isAnO:
+            return False
+        elif board[0][0].isAnO and board[0][1].isAnO and board[0][2].isAnO:
+            return False
+        elif board[1][0].isAnO and board[1][1].isAnO and board[1][2].isAnO:
+            return False
+        elif board[2][0].isAnO and board[2][1].isAnO and board[2][2].isAnO:
+            return False
+        elif board[0][0].isAnO and board[1][1].isAnO and board[2][2].isAnO:
+            return False
+        elif board[2][0].isAnO and board[1][1].isAnO and board[0][2].isAnO:
+            return False
+        elif count == 9:
+            return "draw"
+        else:
+            return "continue"
+
+
+
 
 
 def checkIfINITCorrect(board):
@@ -28,39 +69,61 @@ def checkIfINITCorrect(board):
     else:
         return False
 
-def inputthingie(input):
-    splitthing = nr.splitter(input, ",")
+def inputthingie(funcInput):
+    splitthing = nr.splitter(funcInput, ",")
     for i in range(len(splitthing)):
         if nr.intcheck(splitthing[i]):
             splitthing[i] = int(splitthing[i])
         else:
             return False
+        splitthing[i] -= 1
     return splitthing
 
-def inputLoop(board):
+def inputLoop(objectBoard, board, computerYes, computer):
+    display = board
     displayBoardCLI(board)
+
     count = 0
     finished = False
     while not(finished):
         splat = inputthingie(input("enter the coordinate in the format \'X,Y\'."))
-        if splat == False:
+        if not splat:
             print("enter the coordinates please")
         elif len(splat) != 2:
             print("enter the coordinates as instructed please")
         else:
             if whosTurn(count):
                 if board[splat[0]][splat[1]].isAvailable:
-                    board[splat[0]][splat[1]].isAvailable = False
-                    board[splat[0]][splat[1]].isX = True
+                    board[splat[0]][splat[1]].changeToX()
                     count += 1
-                    displayBoardCLI(board)
+                    board = displayBoardCLI(board)
+                    lastmove = splat
             elif not(whosTurn(count)):
-                if board[splat[0]][splat[1]].isAvailable:
-                    board[splat[0]][splat[1]].isAvailable = False
-                    board[splat[0]][splat[1]].isO = True
+                if computerYes:
+                    temp = computer.TurnCPU(lastmove, board)
                     count += 1
-                    displayBoardCLI(board)
+                    temp = displayBoardCLI(temp)
 
+                if board[splat[0]][splat[1]].isAvailable:
+                    board[splat[0]][splat[1]].changeToO()
+                    count += 1
+                    board = displayBoardCLI(board)
+                    lastmove = splat
+            print(lastmove)
+        if objectBoard.wincheck(display, count) == "continue":
+            pass
+        elif objectBoard.wincheck(display, count) == "draw":
+            print("Draw!")
+            finished = True
+        elif objectBoard.wincheck(display, count):
+            print("You Win!")
+            finished = True
+        elif not objectBoard.wincheck(display, count):
+            print("You Lose!")
+            finished = True
+        else:
+            print("HOW THE FUCK DID YOU GET HERE???")
+            exit()
 def whosTurn(count):
     if count % 2 == 0 or count == 0:
         return True # return True for X
@@ -78,12 +141,37 @@ def displayBoardCLI(board):
         for j in range(len(board[i])):
             space = board[i][j]
             display[i][j] = space.currentToken
-    os.system('cls')
-    nr.print2Dnicely(display)
+    nr.clearer()
 
-ticBoard = TicBoard().boardCreate()
-print(checkIfINITCorrect(ticBoard))
-inputLoop(ticBoard)
+    nr.print2Dnicely(display)
+    return board
+
+def computerTurn(board, computer):
+
+    computer.normalCPU()
+    computermoves = computer.moves
+
+def computerDiff(computer):
+    if input("use normal difficulty?").lower() == "yes":
+        computer.normalCPU()
+    else:
+       exit()
+
+
+INITBoard = [[" ", " ", " "],
+            [" ", " ", " "],
+            [" ", " ", " "]]
+ticBoard = TicBoard()
+regboard = ticBoard.boardCreate()
+
+if input("use AI?").lower() == "yes":
+    useComputer = True
+else:
+    useComputer = False
+computer = cpu.Computer(regboard)
+computerDiff(computer)
+print(checkIfINITCorrect(regboard))
+inputLoop(ticBoard, regboard, useComputer, computer)
 
 
 
