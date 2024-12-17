@@ -17,8 +17,8 @@ class Computer:
             for j in range(len(temp)):
                 if intcheck(temp[j]):
                     temp[j] = int(temp[j])
-            if board[temp[0] - 1][temp[1] - 1].isAvailable():
-                board[temp[0]][temp[1]].changeToO()
+            if board[temp[0] - 1][temp[1] - 1].isAvailable:
+                board[temp[0] - 1][temp[1] - 1].changeToO()
                 return board
             else:
                 pass
