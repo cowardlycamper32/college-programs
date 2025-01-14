@@ -148,7 +148,6 @@ def logInit(calledFrom = "nowhere"):
     if not(os.path.exists("../logs")):
         os.mkdir("../logs")
 
-
     log = open("../logs/" + currenttime + '.log', 'a')
     log.write(timestampgen() + " Program \'" + fileCorrect(calledFrom) + "\' started\n")
     return log
