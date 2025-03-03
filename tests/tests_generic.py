@@ -16,3 +16,5 @@ class TestSum:
         # assert with test value and message
         assert result == 7, "should be 7"
 
+
+# see https://realpython.com/python-testing/ for more details
