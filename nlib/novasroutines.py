@@ -6,6 +6,7 @@ from math import floor
 from time import strftime
 import os
 from platform import system
+import unittest
 
 
 def intcheck(x):
@@ -188,3 +189,10 @@ def clearer():
         os.system("cls")
     else:
         os.system("clear")
+
+
+
+def unitTest():
+    assert sum([1,2,3]) == 5, "should be 5"
+
+unitTest()

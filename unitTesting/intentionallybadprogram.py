@@ -1,3 +1,5 @@
 # THIS IS A PROGRAM DESIGNED TO BE BAD
 # PLEASE DO NOT SUBMIT ERRORS AND PULL REQUESTS FOR THIS FILE
-def password
+def sum(n1, n2, n3):
+    sum = n1 + n2 + n3
+    return sum
