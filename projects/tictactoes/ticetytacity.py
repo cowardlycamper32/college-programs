@@ -113,7 +113,7 @@ def inputLoop(objectBoard, board, computerYes, computer):
                     print("enter the coordinates as instructed please")
                 else:
                     if board[splat[0]][splat[1]].isAvailable:
-                        board[splat[0]][splat[1]].changeToY()
+                        board[splat[0]][splat[1]].changeToO()
                         count += 1
                         board = displayBoardCLI(board)
                         lastmove = splat

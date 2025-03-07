@@ -128,7 +128,7 @@ def splitter(x, split: str):
     return out
 
 def datetimegen():
-    filenametime = strftime("%Y%m%d-%H%M%S", time.localtime(floor(time.time())))
+    filenametime = strftime("%d.%m.%Y-%H:%M:%S", time.localtime(floor(time.time())))
     return filenametime
 
 
@@ -154,7 +154,7 @@ def logInit(calledFrom = "nowhere"):
     return log
 
 def writeLog(log, passedinput):
-    log.write(timestampgen() +" " + passedinput + "\n")
+    log.write(timestampgen() +" " + str(passedinput) + "\n")
 
 def closelog(log):
     log.close()
