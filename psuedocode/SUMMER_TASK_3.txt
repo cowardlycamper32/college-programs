@@ -1,0 +1,34 @@
+import pandas as pd
+
+FUNCTION import_csv_file(file_path):
+    
+    SET df TO pd.read_csv(file_path)
+    RETURN df
+
+END FUNCTION
+
+FUNCTION calculate_total_income_over_four_weeks(df):
+    
+    SET weekly_incomes = []
+    
+    FOR i FROM range(len(df) - 4) DO:
+        SET total_income TO df.iloc[i:i+4, 1:].sum().sum()  # Sum across columns starting from Tickets
+        ADD weekly_incomes INTO total_income
+    END
+  
+    RETURN weekly_incomes
+END FUNCTION
+
+FUNCTION display_results(weekly_incomes):
+    for i, income in enumerate(weekly_incomes):
+        SEND TO DISPLAY f"Week {i + 1}: Total Income = ${income:.2f}"
+    END
+END FUNCTION
+
+SET csv_file_path TO 'task_3.csv'
+
+SET df TO pd.import_csv_file(csv_file_path)
+SET weekly_incomes TO calculate_total_income_over_four_weeks(df)
+# Display the results
+display_results(weekly_incomes)
+
