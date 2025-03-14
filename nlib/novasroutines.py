@@ -7,6 +7,7 @@ from time import strftime
 import os
 from platform import system
 import unittest
+from nlib import exceptions as ne
 
 
 def intcheck(x):
@@ -154,7 +155,10 @@ def logInit(calledFrom = "nowhere"):
     return log
 
 def writeLog(log, passedinput):
-    log.write(timestampgen() +" " + str(passedinput) + "\n")
+    try:
+        log.write(timestampgen() +" " + str(passedinput) + "\n")
+    except AttributeError:
+        raise ne.LogNotOpenError("Log is Not open. Contact the program maintainer.") from None
 
 def closelog(log):
     log.close()
@@ -195,4 +199,3 @@ def clearer():
 def unitTest():
     assert sum([1,2,3]) == 5, "should be 5"
 
-unitTest()
