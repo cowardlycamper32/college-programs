@@ -5,3 +5,7 @@ class NotANumberError(Exception):
 class LogNotOpenError(Exception):
     "Raised when opening a log that doesnt exist"
     pass
+
+class LogFolderAlreadyExistsException(Exception):
+    "Raised when a folder already exists"
+    pass

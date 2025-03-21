@@ -1,3 +1,6 @@
-from nlib.novasroutines import writelog
+import nlog as log
 
-writelog("A", "B")
+logger = log.logInit("temp.py")
+
+
+
