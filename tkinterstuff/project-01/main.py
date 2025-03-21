@@ -2,7 +2,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 # window definition
 window = tk.Tk()
-
+window.minsize(400, 400)
 # item and graphics declaration
 greeting = ttk.Button(text="ELLOOOO")
 
