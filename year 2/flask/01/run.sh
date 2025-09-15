@@ -1,0 +1,1 @@
+python -m flask --app $1 run $2
