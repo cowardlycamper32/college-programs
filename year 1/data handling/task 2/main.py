@@ -4,7 +4,7 @@ from nlib import novasroutines as nr
 log = nr.logInit("data handling/main.py")
 
 print(os.listdir("./txtdata"))
-balls = open("./balls.csv", "wt+")
+balls = open("balls.csv", "wt+")
 balls.write("First Name, Last Name\n")
 numitems = len(os.listdir("./txtdata"))# pointless ass code
 

@@ -7,7 +7,7 @@ with open("spotify-2023.csv", "rb") as f:
     writeLog(log, result)
 #Subtasks
 #1
-df = pd.read_csv("./spotify-2023.csv")
+df = pd.read_csv("spotify-2023.csv")
 
 print(df.head(10))
 writeLog(log, "\n" + df.head(10).to_string())
