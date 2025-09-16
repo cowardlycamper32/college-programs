@@ -1,4 +1,3 @@
-import login, register
 import usermanager as um
 from nlib import novasroutines as nr, novastestvalues as nt
 from nlib.novasroutines import simpwrite as sw

@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 
 
-data = pd.read_csv("./cars.csv")
+data = pd.read_csv("cars.csv")
 print(data.info())
 print(f"Total Rows (Before NaN Removal): {len(data)}")
 print(data.isna().sum())
