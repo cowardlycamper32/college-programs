@@ -21,7 +21,7 @@ class log():
             self.currentLogName = lastLog
         if customName != 0:
             self.currentLogName = customName
-        self.file = open("./logs/" + self.currentLogName + ".log", "w+")
+        self.file = open("./logs/" + self.currentLogName + ".log", "a+")
         self.file.write(timeStamp().timeStampGen() + " " + "Hello From " + calledFrom + "\n")
 
 
@@ -36,6 +36,7 @@ class log():
 
         self.file.close()
         if options == 1:
+            newLog = True
             return 1
         else:
             return 1
