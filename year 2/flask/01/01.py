@@ -4,6 +4,10 @@ import sqlite3 as db
 import requests
 
 
+from flask_wtf import FlaskForm, CSRFProtect
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired, Length
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -37,6 +41,8 @@ def viewPost(id):
     return f"GET {id}"
 
 #@app.route("/register")
+def register():
+    pass
 
 if __name__ == '__main__':
     app.run(debug=True)
