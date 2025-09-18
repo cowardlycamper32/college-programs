@@ -1,7 +1,8 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect
 from markupsafe import escape
 import sqlite3 as db
 import requests
+from Exceptions import UsernameAlreadyExists
 
 secretFile = open("secret.scrt")
 secret = secretFile.read()
@@ -39,13 +40,29 @@ def viewUser(userid):
         except TypeError as e:
             print(e)
             return f'User with id "{userid}" was not found'
-        finally:
-            uc.close()
-@app.route("/post/<int:id>")
-def viewPost(id):
-    return f"GET {id}"
 
-@app.route("/register")
+@app.route("/posts/<id>")
+def viewPost(id):
+    with db.connect("userCache.db") as uc:
+        ucc = uc.cursor()
+        #try:
+        result = ucc.execute("SELECT * FROM posts WHERE id = ?", (id,))
+        export = result.fetchone()
+        print(export)
+        results = {
+            "name": escape(export[0]),
+            "content": escape(export[3]),
+        }
+        print(results)
+        return render_template("post.html", post=results)
+        #except TypeError as e:
+        return f'Post with id "{id}" was not found'
+
+@app.route("/post/new", methods=["GET", "POST"])
+def newPost():
+    pass
+
+@app.route("/register", methods=["GET", "POST"])
 def register():
     form = RegisterForm()
     message = ""
@@ -56,10 +73,15 @@ def register():
 
         with db.connect("userCache.db") as database:
             cur = database.cursor()
-            currentUsers = cur.execute("SELECT username FROM users")
-            print(currentUsers)
+            currentUsers = cur.execute("SELECT username FROM users").fetchall()
+            if username in currentUsers:
+                raise UsernameAlreadyExists
+            cur.execute("INSERT INTO users (username, password) VALUES(?, ?)", (username, rPassword))
+        print(username, password, rPassword)
+        return redirect("/success")
 
-    return render_template("index.html")
+
+    return render_template("register.html", form=form)
 
 
 class RegisterForm(FlaskForm):

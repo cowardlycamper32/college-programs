@@ -1,0 +1,13 @@
+flask
+flask-wtf
+wtforms
+flask_bootstrap
+
+markupsafe
+requests
+
+
+ollama
+streamlit
+requests>=2.31.0
+llama-index
