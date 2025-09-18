@@ -91,5 +91,13 @@ class RegisterForm(FlaskForm):
 
     submit = SubmitField("Submit")
 
+
+class PostForm(FlaskForm):
+    postTitle = StringField("Title", validators=[DataRequired()])
+    postBody = StringField()
+
+
+    
+
 if __name__ == '__main__':
     app.run(debug=True)
