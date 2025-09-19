@@ -17,8 +17,10 @@ app = Flask(__name__)
 app.secret_key = secret
 @app.route('/')
 def index():
-    firstname = request.args.get('LName')
-    return render_template('index.html', last_name=escape(firstname), fav_color=escape(request.args.get('colour')),)
+    with db.connect("userCache.db") as database:
+        cur = database.cursor()
+        posts = cur.execute("SELECT Title, id FROM posts").fetchall()
+    return render_template('index.html', posts=posts)
 
 
 @app.route("/hello")
@@ -38,8 +40,11 @@ def viewUser(userid):
             print(export)
             return f'Hello, {escape(export[0])}'
         except TypeError as e:
-            print(e)
-            return f'User with id "{userid}" was not found'
+            return redirect("/error?err=UserNotFound&prv=home")
+
+@app.route("/posts")
+def viewPosts():
+    pass
 
 @app.route("/posts/<id>")
 def viewPost(id):
@@ -49,18 +54,41 @@ def viewPost(id):
         result = ucc.execute("SELECT * FROM posts WHERE id = ?", (id,))
         export = result.fetchone()
         print(export)
-        results = {
-            "name": escape(export[0]),
-            "content": escape(export[3]),
-        }
-        print(results)
-        return render_template("post.html", post=results)
-        #except TypeError as e:
-        return f'Post with id "{id}" was not found'
+        try:
+            results = {
+                "name": escape(export[0]),
+                "content": escape(export[3]),
+            }
+            print(results)
+            return render_template("post.html", post=results)
+        except TypeError as e:
+            return redirect("/error?err=PostNotFound&prv=home")
 
 @app.route("/post/new", methods=["GET", "POST"])
 def newPost():
-    pass
+    form = PostForm()
+    if form.validate_on_submit():
+        PostTitle = form.postTitle.data
+        PostContent = form.postBody.data
+        PostUsername = form.postUsername.data
+
+        with db.connect("userCache.db") as database:
+            cur = database.cursor()
+            DoNotRun = True
+            currentUsers = cur.execute("SELECT username, id FROM users").fetchall()
+            for user in currentUsers:
+                if user[0] == PostUsername:
+                    DoNotRun = False
+                    posterID = user[1]
+
+            if not DoNotRun:
+                cur.execute("INSERT INTO posts (Title, content, userID) VALUES (?, ?, ?)", (PostTitle, PostContent, posterID))
+                postID = cur.execute("SELECT id FROM posts WHERE Title = ? AND content = ? AND userID = ?", (PostTitle, PostContent, posterID)).fetchone()[0]
+                return redirect("/posts/{}".format(postID))
+            else:
+                return redirect("/error?err=UserNotFound&prv=post-new")
+
+    return render_template("newPost.html", form=form)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -73,15 +101,49 @@ def register():
 
         with db.connect("userCache.db") as database:
             cur = database.cursor()
+            doNotRun = False
             currentUsers = cur.execute("SELECT username FROM users").fetchall()
-            if username in currentUsers:
-                raise UsernameAlreadyExists
-            cur.execute("INSERT INTO users (username, password) VALUES(?, ?)", (username, rPassword))
-        print(username, password, rPassword)
-        return redirect("/success")
+            for user in currentUsers:
+                if user[0] == username:
+                    doNotRun = True
+            if not doNotRun:
+                cur.execute("INSERT INTO users (username, password) VALUES(?, ?)", (username, rPassword))
+                print(username, password, rPassword)
+                return redirect("/register/success")
+            else:
+                return redirect("/error?err=UserExists&prv=register")
+
 
 
     return render_template("register.html", form=form)
+
+@app.route("/error")
+def error():
+    err = request.args.get("err")
+    back = request.args.get("prv")
+    error = ""
+    match escape(err):
+        case "UserExists":
+            error = "Username already exists"
+        case "UserNotFound":
+            error = "That Username doesn't exist"
+        case "PostNotFound":
+            error = "That Post Doesn't Exist"
+        case _:
+            error = "An Unknown Error Occurred"
+    if back == "home" or back is None:
+        link = "/"
+    elif "-" in back:
+        splat = back.split("-")
+        construct = ""
+        for i in splat:
+            construct += "/"
+            construct += i
+
+        link = construct
+    else:
+        link = "/" + escape(back)
+    return render_template("error.html", error=error, link=link)
 
 
 class RegisterForm(FlaskForm):
@@ -95,7 +157,9 @@ class RegisterForm(FlaskForm):
 class PostForm(FlaskForm):
     postTitle = StringField("Title", validators=[DataRequired()])
     postBody = StringField()
+    postUsername = StringField("Username", validators=[DataRequired()])
 
+    submit =SubmitField("Post")
 
     
 

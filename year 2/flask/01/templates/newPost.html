@@ -1,0 +1,10 @@
+
+
+<form method="post">
+    {{ form.csrf_token }}
+    {{ form.postUsername.label }} {{ form.postUsername }}
+    {{ form.postTitle.label }} {{ form.postTitle }}
+    {{ form.postBody.label }} {{ form.postBody }}
+
+    {{ form.submit }}
+</form>

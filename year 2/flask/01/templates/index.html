@@ -1,4 +1,7 @@
 
-<link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}"
-<h1>goodbye {{last_name}}</h1>
-<h2>your favourate colour is {{fav_color}}</h2>
+
+<title>Posts</title>
+
+{% for post in posts %}
+<a href={{ posts.link }} {{ posts.title }}</a>
+{% endfor %}
