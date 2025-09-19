@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template, redirect
+from flask_wtf.file import FileAllowed
 from markupsafe import escape
 import sqlite3 as db
 import requests
@@ -9,7 +10,7 @@ secret = secretFile.read()
 secretFile.close()
 
 from flask_wtf import FlaskForm, CSRFProtect
-from wtforms import StringField, SubmitField, PasswordField
+from wtforms import StringField, SubmitField, PasswordField, FileField
 from wtforms.validators import DataRequired, Length, EqualTo
 import flask_bootstrap
 
@@ -18,10 +19,24 @@ app.secret_key = secret
 @app.route('/')
 def index():
     with db.connect("userCache.db") as database:
-        cur = database.cursor()
-        posts = cur.execute("SELECT Title, id FROM posts").fetchall()
+        posts = fetchPosts()
     return render_template('index.html', posts=posts)
 
+def fetchPosts():
+    with db.connect("userCache.db") as database:
+        cur = database.cursor()
+        posts = cur.execute("SELECT * FROM posts").fetchall()
+        actualposts = []
+        for post in posts:
+            actualposts.append(Post(post[0], post[3], post[2], post[1]))
+        return actualposts
+
+class Post():
+    def __init__(self, title, content, author, ID):
+        self.title = title
+        self.content = content
+        self.author = author
+        self.ID = "/posts/" + str(ID)
 
 @app.route("/hello")
 def hello():
@@ -71,6 +86,7 @@ def newPost():
         PostTitle = form.postTitle.data
         PostContent = form.postBody.data
         PostUsername = form.postUsername.data
+        #PostFile = form.postFile.data
 
         with db.connect("userCache.db") as database:
             cur = database.cursor()
@@ -158,6 +174,7 @@ class PostForm(FlaskForm):
     postTitle = StringField("Title", validators=[DataRequired()])
     postBody = StringField()
     postUsername = StringField("Username", validators=[DataRequired()])
+    postImage = FileField("Image", validators=[FileAllowed(["jpg", "jpeg", "png"])])
 
     submit =SubmitField("Post")
 
