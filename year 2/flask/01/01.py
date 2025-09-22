@@ -9,7 +9,7 @@ secretFile = open("secret.scrt")
 secret = secretFile.read()
 secretFile.close()
 
-from flask_wtf import FlaskForm, CSRFProtect
+from flask_wtf import FlaskForm, CSRFProtect, RecaptchaField
 from wtforms import StringField, SubmitField, PasswordField, FileField
 from wtforms.validators import DataRequired, Length, EqualTo
 import flask_bootstrap
@@ -162,10 +162,16 @@ def error():
     return render_template("error.html", error=error, link=link)
 
 
+@app.route("/login")
+def login():
+    pass
+
+
 class RegisterForm(FlaskForm):
-    username = StringField("Username", validators=[DataRequired(), Length(10, 40)])
+    username = StringField("Username", validators=[DataRequired(), Length(5, 40)])
     password = PasswordField("Password", validators=[DataRequired(), Length(8, 200)])
     repeatPassword = PasswordField("Repeat Password", validators=[DataRequired(), Length(8, 200)])
+    captcha = RecaptchaField("Verify You Are Human")
 
     submit = SubmitField("Submit")
 
@@ -176,9 +182,9 @@ class PostForm(FlaskForm):
     postUsername = StringField("Username", validators=[DataRequired()])
     postImage = FileField("Image", validators=[FileAllowed(["jpg", "jpeg", "png"])])
 
-    submit =SubmitField("Post")
+    submit = SubmitField("Post")
 
     
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0", port=5001)
