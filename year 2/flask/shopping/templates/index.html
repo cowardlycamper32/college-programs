@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<title>{{ siteName }} - {{ pageName }}</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+
+<div class="NavBar-Container">
+    <nav class="navbar">
+        <ul>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('about') }}">About</a></li>
+            <li><a href="{{ url_for('contact') }}">Contact</a></li>
+            <li>{{ loggedInUsername }}</li>
+        </ul>
+    </nav>
+</div>
+
+{% block content %} {% endblock %}

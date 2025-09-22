@@ -1,0 +1,17 @@
+{% extends "index.html" %}
+{% block content %}
+{% for product in products %}
+<div class="card">
+    <div class="card-header">
+        <a href={{product.id}}>{{ product.name }}</a>
+
+    </div>
+    <div class="card-body">
+        {{ product.description }}
+    </div>
+    <div class="card-footer">
+        {{ product.price }}
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
