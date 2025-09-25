@@ -28,7 +28,11 @@ def search():
     products = []
     with db.connect("database.db") as database:
         cur = database.cursor()
-        results = cur.execute("SELECT * FROM products WHERE instr(Name, ?) > 0 OR instr(Description, ?) > 0", (escape(query),escape(query))).fetchall()
+        if query is None:
+            results = cur.execute("SELECT * FROM Products")
+        else:
+            results = cur.execute("SELECT * FROM Products WHERE instr(UPPER(Title), UPPER(?)) > 0 OR instr(UPPER(Description), UPPER(?)) > 0", (escape(query),escape(query))).fetchall()
+        print(products)
         for product in results:
             products.append(Product(product[1], product[3], product[2], product[0]))
 
@@ -40,11 +44,24 @@ def search():
 def product(id):
     with db.connect("database.db") as database:
         cur = database.cursor()
-        product = cur.execute("SELECT * FROM products WHERE id = ?", (id,)).fetchone()
+        product = cur.execute("SELECT * FROM Products WHERE ID = ?", (id,)).fetchone()
+    try:
+        prod = Product(product[1], product[3], product[2], product[0])
+        print(product)
+        return render_template("product.html", product=prod)
+    except TypeError:
+        return redirect("/error?err=ProductNotExist")
 
+@app.route("/error")
+def error():
+    error = request.args.get("err")
+    match error:
+        case "ProductNotExist":
+            err = "Product not found."
+        case _:
+            err = "An unknown error occured"
 
-    return render_template()
-
+    return render_template("error.html", error=err)
 
 @app.route("/about")
 def about():
