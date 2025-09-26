@@ -128,6 +128,7 @@ def register():
                 return redirect("/register/success")
             else:
                 return redirect("/error?err=UserExists&prv=register")
+    print(form.errors)
 
 
 
@@ -171,7 +172,6 @@ class RegisterForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired(), Length(5, 40)])
     password = PasswordField("Password", validators=[DataRequired(), Length(8, 200)])
     repeatPassword = PasswordField("Repeat Password", validators=[DataRequired(), Length(8, 200)])
-    captcha = RecaptchaField("Verify You Are Human")
 
     submit = SubmitField("Submit")
 

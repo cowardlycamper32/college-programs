@@ -9,7 +9,12 @@
             <li><a href="{{ url_for('index') }}">Home</a></li>
             <li><a href="{{ url_for('about') }}">About</a></li>
             <li><a href="{{ url_for('contact') }}">Contact</a></li>
-            <li>{{ session["username"] }}</li>
+            {% if not loggedInUsername %}
+            <li><a href="{{ url_for('login') }}">login</a></li>
+            {% else %}
+            <li>{{ loggedInUsername }}</li>
+            <li><a href="{{ url_for('logout') }}">logout</a></li>
+            {% endif %}
         </ul>
     </nav>
 </div>

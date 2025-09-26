@@ -1,0 +1,27 @@
+
+<div class="flexbox-container" id="deleteUser">
+    <form method="POST" action="/admin/deleteUser">
+        {{ deleteUsers.hidden_tag() }}
+        <h1>Delete User</h1>
+        {{ deleteUsers.username.label }} {{ deleteUsers.username }}
+        {{ deleteUsers.confirmUsername.label }} {{ deleteUsers.confirmUsername }}
+        <p>Please type in the box "{{ deleteUsers.confirmationText }}"</p>
+        <div>{{ deleteUsers.confirmation.label }} {{deleteUsers.confirmation}}</div>
+
+        {{ deleteUsers.submit }}
+    </form>
+</div>
+
+<div class="flexbox-container" id="addUser">
+    <form method="POST" action="/admin/addUser">
+        {{ addUsers.hidden_tag() }}
+        <h1>Create User</h1>
+        {{ addUsers.username.label }} {{ addUsers.username }}
+        {{ addUsers.email.label }} {{ addUsers.email }}
+        {{ addUsers.password.label }} {{ addUsers.password }}
+        {{ addUsers.flags.label }} {{ addUsers.flags }}
+
+        <div>{{ addUsers.submit }}</div>
+    </form>
+</div>
+

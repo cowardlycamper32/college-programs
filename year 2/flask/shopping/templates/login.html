@@ -1,0 +1,14 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="form-container">
+    <form method="POST" action="/login">
+        {{ form.hidden_tag() }}
+
+        {{ form.usernameOrEmail.label }} {{ form.usernameOrEmail() }}
+        {{ form.password.label }} {{ form.password() }}
+
+        {{ form.submit }}
+    </form>
+    <a href="{{ url_for('register') }}">Register</a>
+</div>
+{% endblock %}
