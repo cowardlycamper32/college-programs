@@ -2,15 +2,20 @@
 {% block content %}
 {% for product in products %}
 <div class="card">
-    <div class="card-header">
-        <a href={{product.id}}>{{ product.name }}</a>
+    <div class="card-thumbnail">
+        <img src={{ url_for("static", filename=product.imageLocation  )}} alt={{ product.name }} width="auto" height="100">
+    </div>
+    <div class="card-content">
+        <div class="card-header">
+            <a href={{product.id}}>{{ product.name }}</a>
 
-    </div>
-    <div class="card-body">
-        {{ product.description }}
-    </div>
-    <div class="card-footer">
-        {{ product.price }}
+        </div>
+        <div class="card-body">
+            {{ product.description }}
+        </div>
+        <div class="card-footer">
+            {{ product.price }}
+        </div>
     </div>
 </div>
 {% endfor %}

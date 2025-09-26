@@ -11,3 +11,4 @@ ollama
 streamlit
 requests>=2.31.0
 llama-index
+flask-argon2

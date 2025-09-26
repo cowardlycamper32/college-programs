@@ -1,10 +1,16 @@
 {% extends 'index.html' %}
 
 {% block content %}
-{{ product.name }}
-<br>
-{{ product.description }}
-<br>
-{{ product.price }}
-
+<div class="card">
+    <div class="card-thumbnail">
+        <img src={{ url_for("static", filename=product.imageLocation  )}} alt={{ product.name }} width="auto" height="100">
+    </div>
+    <div class="card-content">
+        {{ product.name }}
+        <br>
+        {{ product.description }}
+        <br>
+        {{ product.price }}
+    </div>
+</div>
 {% endblock %}

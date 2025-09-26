@@ -1,0 +1,17 @@
+
+
+.card {
+    display: flex;
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+.card-thumbnail {
+    border: 3px solid #1f1f1f;
+    width: 100px;
+    height: 100px;
+    margin-right: 2px;
+    border-radius: inherit;
+}
+.card-content {
+    background-color: white;
+}

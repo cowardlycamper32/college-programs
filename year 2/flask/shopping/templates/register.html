@@ -1,0 +1,19 @@
+{% extends "index.html" %}
+{% block content %}
+
+<div class="form-container">
+    {{ form.csrf_token }}
+
+    {{ form.username.label }} {{ form.username() }}
+    <br>
+    {% if usernameError != "none" %}
+    <p>{{usernameError}}</p>
+    {% endif %}
+    {{ form.email.label }} {{ form.email() }}
+    <br>
+    {{ form.password.label }} {{ form.password() }}
+    {{ form.repeatPassword.label }} {{ form.repeatPassword() }}
+
+    {{ form.submit() }}
+</div>
+{% endblock %}
